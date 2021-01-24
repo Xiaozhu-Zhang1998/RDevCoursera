@@ -4,12 +4,13 @@ The test points (-1, 0.5, 0, 10) and corresponding results are shown in the R sc
 
 Next are the results for comparisons of the four different implementations.
 # input one point 10
-Unit: microseconds
-                          expr  min      lq    mean median     uq   max neval     cld
-     Factorial_loop(10)   1.6   2.20   3.427      2.70   4.25   10.2    100 a   
- Factorial_reduce(10) 18.0 21.55 31.840    29.45 36.90 135.5    100       d
-     Factorial_func(10)   8.1 14.35 18.270    15.70 22.55   46.7    100     c 
-    Factorial_mem(10)   4.1   4.90   9.181      6.05   9.45   76.7    100   b  
+Unit: microseconds								
+expr			min	lq	mean	median	uq	max	neval	cld
+Factorial_loop(10)		1.6	2.2	3.427	2.7	4.25	10.2	100	a
+Factorial_reduce(10)	18	21.55	31.84	29.45	36.9	135.5	100	d
+Factorial_func(10)		8.1	14.35	18.27	15.7	22.55	46.7	100	c
+Factorial_mem(10)		4.1	4.9	9.181	6.05	9.45	76.7	100	b
+
 
 In this part, I input only one point, 10, to compare the four different implementations. According to the results, Factorial_loop is the fastest, Factorial_mem is the next, Factorial_func is the third, while Factorial_reduce comes to the last. 
 
@@ -18,82 +19,91 @@ In this part, I input only one point, 10, to compare the four different implemen
 # input a range of points 1:10
 [[1]]
 Unit: nanoseconds
-                        expr   min      lq mean median     uq    max neval  cld
-     Factorial_loop(x)   800   800    898       900   900   3300    100  a 
- Factorial_reduce(x) 3200 3300  3705     3400 3500 31700    100    b
-     Factorial_func(x)   600   700    725       700   800   2200    100  a 
-    Factorial_mem(x)   600   700    768       700   800   4300    100  a 
+expr		min	lq	mean	median	uq	max	neval	cld
+Factorial_loop(x)	800	800	898	900	900	3300	100	a
+Factorial_reduce(x)	3200	3300	3705	3400	3500	31700	100	b
+Factorial_func(x)	600	700	725	700	800	2200	100	a
+Factorial_mem(x)	600	700	768	700	800	4300	100	a
+
 
 [[2]]
 Unit: nanoseconds
-                        expr   min      lq  mean median     uq    max neval  cld
-     Factorial_loop(x)   800 1000   2064   1550   3000   8800    100 a  
- Factorial_reduce(x) 4500 4900 10572   8400 14600 41300    100     c
-     Factorial_func(x) 1400 1700   3683   3100   4800 24500    100   b 
-    Factorial_mem(x) 1000 1200   2661   2100   3600 12200    100 ab 
+expr		min	lq	mean	median	uq	max	neval	cld
+Factorial_loop(x)	800	1000	2064	1550	3000	8800	100	a
+Factorial_reduce(x)	4500	4900	10572	8400	14600	41300	100	c
+Factorial_func(x)	1400	1700	3683	3100	4800	24500	100	b
+Factorial_mem(x)	1000	1200	2661	2100	3600	12200	100	ab
+
 
 [[3]]
 Unit: nanoseconds
-                        expr   min      lq mean median     uq    max neval  cld
-     Factorial_loop(x)   800 1000  1355     1100 1200 29500    100 a  
- Factorial_reduce(x) 5400 5800  6389     6200 6600 28900    100     c
-     Factorial_func(x) 2300 2500  2851     2700 2800 16300    100   b 
-    Factorial_mem(x) 1000 1150  1322     1300 1400  5900     100 a  
+expr		min	lq	mean	median	uq	max	neval	cld
+Factorial_loop(x)	800	1000	1355	1100	1200	29500	100	a
+Factorial_reduce(x)	5400	5800	6389	6200	6600	28900	100	c
+Factorial_func(x)	2300	2500	2851	2700	2800	16300	100	b
+Factorial_mem(x)	1000	1150	1322	1300	1400	5900	100	a
+
 
 [[4]]
 Unit: nanoseconds
-                        expr   min      lq mean median    uq     max neval   cld
-     Factorial_loop(x)   900 1000  1341     1100 1100 29300    100 a  
- Factorial_reduce(x) 6300 6800  7214     6900 7100 26400    100     c
-     Factorial_func(x) 3100 3300  3500     3400 3500 10400    100   b 
-    Factorial_mem(x) 1000 1100  1309     1200 1300   6400    100 a  
+expr		min	lq	mean	median	uq	max	neval	cld
+Factorial_loop(x)	900	1000	1341	1100	1100	29300	100	a
+Factorial_reduce(x)	6300	6800	7214	6900	7100	26400	100	c
+Factorial_func(x)	3100	3300	3500	3400	3500	10400	100	b
+Factorial_mem(x)	1000	1100	1309	1200	1300	6400	100	a
+
 
 [[5]]
 Unit: microseconds
-                        expr  min     lq       mean median      uq         max neval     cld
-     Factorial_loop(x)   3.4   3.7       4.192         4.0   4.20         10.6    100   a
- Factorial_reduce(x) 24.4 25.6 1993.226       26.1 27.15 196591.8    100       c
-     Factorial_func(x) 13.4 14.1     15.451       14.4 15.00         39.3    100     b
-    Factorial_mem(x)   3.7   4.0       4.625         4.3   4.65         26.5    100   a
+expr		min	lq	mean	median	uq	max	neval	cld
+Factorial_loop(x)	3.4	3.7	4.192	4	4.2	10.6	100	a
+Factorial_reduce(x)	24.4	25.6	1993.226	26.1	27.15	196591.8	100	c
+Factorial_func(x)	13.4	14.1	15.451	14.4	15	39.3	100	b
+Factorial_mem(x)	3.7	4	4.625	4.3	4.65	26.5	100	a
+
 
 [[6]]
 Unit: microseconds
-                        expr  min    lq  mean median  uq max neval   cld
-     Factorial_loop(x)   1.0  1.1  1.177         1.1 1.2   3.3    100 a  
- Factorial_reduce(x)   8.1  8.5  9.043         8.8 9.1 30.5    100     c
-     Factorial_func(x)   4.6  4.9  5.103         5.0 5.2   8.9    100   b 
-    Factorial_mem(x)   1.0  1.1  1.424         1.2 1.3 18.8    100 a  
+expr		min	lq	mean	median	uq	max	neval	cld
+Factorial_loop(x)	1	1.1	1.177	1.1	1.2	3.3	100	a
+Factorial_reduce(x)	8.1	8.5	9.043	8.8	9.1	30.5	100	c
+Factorial_func(x)	4.6	4.9	5.103	5	5.2	8.9	100	b
+Factorial_mem(x)	1	1.1	1.424	1.2	1.3	18.8	100	a
 
 [[7]]
 Unit: microseconds
-                        expr min       lq   mean median    uq   max neval   cld
-     Factorial_loop(x)  1.1   1.30   1.821        1.4    2.1     5.0    100 a  
- Factorial_reduce(x)  9.7 10.35 14.149       10.9 15.7   81.1    100     c
-     Factorial_func(x)  6.0   6.30 10.369        6.6    9.9 148.2    100   b 
-    Factorial_mem(x)  1.0   1.30   2.016        1.5    2.1   14.8    100 a  
+expr		min	lq	mean	median	uq	max	neval	cld
+Factorial_loop(x)	1.1	1.3	1.821	1.4	2.1	5	100	a
+Factorial_reduce(x)	9.7	10.35	14.149	10.9	15.7	81.1	100	c
+Factorial_func(x)	6	6.3	10.369	6.6	9.9	148.2	100	b
+Factorial_mem(x)	1	1.3	2.016	1.5	2.1	14.8	100	a
+ 
 
 [[8]]
 Unit: microseconds
-                        expr  min       lq   mean median    uq  max neval    cld
-     Factorial_loop(x)   1.2   1.35   1.576         1.5   1.6     5.1   100 a  
- Factorial_reduce(x) 11.7 12.25 14.276       12.9 14.6   38.9   100      c
-     Factorial_func(x)   7.4   7.80   8.854         8.1   9.2   26.3   100    b 
-    Factorial_mem(x)   1.2   1.40   1.776         1.6   1.7   18.5   100 a  
+expr		min	lq	mean	median	uq	max	neval	cld
+Factorial_loop(x)	1.2	1.35	1.576	1.5	1.6	5.1	100	a
+Factorial_reduce(x)	11.7	12.25	14.276	12.9	14.6	38.9	100	c
+Factorial_func(x)	7.4	7.8	8.854	8.1	9.2	26.3	100	b
+Factorial_mem(x)	1.2	1.4	1.776	1.6	1.7	18.5	100	a
+
 
 [[9]]
 Unit: microseconds
-                        expr   min    lq   mean median     uq  max neval   cld
-     Factorial_loop(x)   1.2   1.4   2.402        1.5   1.50  86.0    100 a  
- Factorial_reduce(x) 12.7 13.1 15.052      13.3 13.95  95.4    100     c
-     Factorial_func(x)   8.3   8.7   9.213        8.8   9.05  35.8    100   b 
-    Factorial_mem(x)   1.2   1.4   1.570        1.5   1.60    7.2    100 a  
+expr		min	lq	mean	median	uq	max	neval	cld
+Factorial_loop(x)	1.2	1.4	2.402	1.5	1.5	86	100	a
+Factorial_reduce(x)	12.7	13.1	15.052	13.3	13.95	95.4	100	c
+Factorial_func(x)	8.3	8.7	9.213	8.8	9.05	35.8	100	b
+Factorial_mem(x)	1.2	1.4	1.57	1.5	1.6	7.2	100	a
+
 
 [[10]]
 Unit: microseconds
-                        expr   min      lq   mean median      uq   max neval   cld
-     Factorial_loop(x)   1.1   1.20   1.409       1.30   1.30     6.7    100 a  
- Factorial_reduce(x) 11.7 12.30 15.321     12.70 13.35 120.1    100       d
-     Factorial_func(x)   7.9   8.15   8.813       8.40   8.60   18.8    100     c 
-    Factorial_mem(x)   2.4   2.60   3.184       2.75   2.90   28.4    100   b  
+expr		min	lq	mean	median	uq	max	neval	cld
+Factorial_loop(x)	1.1	1.2	1.409	1.3	1.3	6.7	100	a
+Factorial_reduce(x)	11.7	12.3	15.321	12.7	13.35	120.1	100	d
+Factorial_func(x)	7.9	8.15	8.813	8.4	8.6	18.8	100	c
+Factorial_mem(x)	2.4	2.6	3.184	2.75	2.9	28.4	100	b
 
-In this part, I input a range of 10 points, 1:10, to compare the four different implementations. According to the results, most of the time, Factorial_mem is as good as Factorial_loop (since values have been stored in the vector Factorial_tbl), while Factorial_func is the third, and Factorial_reduce comes to the last. when n = 10, the Factorial_mem is worse than Factorial_loop because Factorial_tbl[10] is NA and the step "10 * Factorial_tbl[10-1]" must be executed.
+
+In this part, I input a range of 10 points, 1:10, to compare the four different implementations. According to the results, most of the time, Factorial_mem is as good as Factorial_loop (since values have been stored in the vector Factorial_tbl), while Factorial_func is the third, and Factorial_reduce comes to the last. When n = 10, the Factorial_mem is worse than Factorial_loop because Factorial_tbl[10] is NA and the step "10 * Factorial_tbl[10-1]" must be executed.
