@@ -74,7 +74,7 @@ make_filename <- function(year) {
 #'  fars_read_years(c(2013,2016))
 #' }
 #'
-#' @import magrittr
+#' @importFrom magrittr %>%
 #' @importFrom dplyr mutate
 #' @importFrom dplyr select
 #'
@@ -115,11 +115,11 @@ fars_read_years <- function(years) {
 #'  fars_summarize_years(c(2013,2015))
 #' }
 #'
-#' @import magrittr
+#' @importFrom magrittr %>%
 #' @importFrom dplyr bind_rows
 #' @importFrom dplyr group_by
 #' @importFrom dplyr summarize
-#' @importFrom dplyr spread
+#' @importFrom tidyr spread
 #'
 #' @export
 fars_summarize_years <- function(years) {
