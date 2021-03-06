@@ -1,0 +1,116 @@
+---
+title: 'Course Project 2: Baisc Inference Data Analysis'
+author: "Xiaozhu Zhang"
+date: "Jan. 15, 2021"
+output: pdf_document
+---
+
+In this part, I will do a basic inference data analysis on the dataset ```ToothGrowth```. The response is the length of odontoblasts (cells responsible for tooth growth) in 60 guinea pigs. Each animal received one of three dose levels of vitamin C (0.5, 1, and 2 mg/day) by one of two supplement types, orange juice or ascorbic acid.
+
+## 1. Data loading
+```{r}
+library("datasets")
+data("ToothGrowth")
+dim(ToothGrowth)
+head(ToothGrowth)
+```
+We see that the dataset is a 60 by 3 matrix. Since the variable ```supp``` only takes 2 values, and ```dose``` only takes 3 values, we will set them as factors.
+
+## 2. Basic EDA and data summary
+```{r}
+dat <- ToothGrowth
+dat$dose <- factor(dat$dose)
+summary(dat)
+```
+From the output summary table, we know that 30 pigs were assigned to each supplement group respectively, while 20 pigs were assigned to each dose level.
+```{r, warning=FALSE, message=FALSE, echo=FALSE, fig.align='center', fig.dim=c(4,2), fig.cap="Density of different groups", figures-side, fig.show="hold", out.width="50%"}
+library(ggplot2)
+library(ggridges)
+ggplot(dat, aes(x = len, y = factor(supp), fill = supp)) +
+  geom_density_ridges(alpha = 0.8) +
+  labs(title = "Density of 'len' over supplement types", x = "len", y = "supp") +
+  theme_classic()
+
+ggplot(dat, aes(x = len, y = factor(dose), fill = dose)) +
+  geom_density_ridges(alpha = 0.8) + 
+  labs(title = "Density of 'len' over dose levels", x = "len", y = "dose") + 
+  theme_classic()
+```
+The density plots over groups are shown in figure 1. We see that they all are bell-shaped though more or less skewed. The density plots of the two different supplement types are very close. However, different dose levels may lead to significantly different lengths. 
+
+
+## 3. Tests
+Figures can imply but may never be exact. In order to give accurate results we use ```t.test()``` to perform hypothesis test and construct confidence interval.
+```{r}
+# Tests of supp
+len_OJ <- subset(dat, supp %in% "OJ")$len
+len_VC <- subset(dat, supp %in% "VC")$len
+t.test(len_OJ, len_VC, paired = FALSE, var.equal = FALSE, alt = "two.sided")
+```
+For the hypothesis test, the null hypothesis is $H_{0}: \mu_{\rm OJ}=\mu_{\rm VC}$. Since p-value is greater than $\alpha=0.05$, we fail to reject the null hypothesis. In other words, there is no significant differences between the means of lengths over group "OJ" and group "VC". The 95% confidence interval is $[-0.171, 7.571]$ containing 0, which supports the same result.
+```{r, message=FALSE, warning=FALSE}
+# Tests of dose
+len_.5 <- subset(dat, dose %in% "0.5")$len
+len_1 <- subset(dat, dose %in% "1")$len
+len_2 <- subset(dat, dose %in% "2")$len
+matrix <- cbind(len_.5, len_1, len_2)
+library("combinat")
+tab <- combn(3,2)
+pValues <- c()
+for(i in 1:3){
+  a <- matrix[,tab[,i][1]]
+  b <- matrix[,tab[,i][2]]
+  t <- t.test(a, b, paired = FALSE, var.equal = FALSE, alt = "two.sided")$p.value
+  pValues <- c(pValues, t)
+}
+pValues
+p.adjust(pValues, method = "bonferroni")
+p.adjust(pValues, method = "BH")
+
+```
+Since there are 3 dose levels, in order to compare each pair, we need to perform $C(3,2)=3$ tests. The null and hypotheses are: $H_{01}: \mu_{.05}=\mu_1$, $H_{02}: \mu_{.05}=\mu_2$, and $H_{03}: \mu_1=\mu_2$. For multiple testing, we use "bonferroni" and "BH" methods to adjust p-values, controling the family-wise error rate and the discovery rate respectively. Regardless of the criteria, all p-values are far less than $\alpha=0.05$, so we should reject all $H_0$'s in the three tests. All three groups have significantly different means.
+
+## 4. Assumptions and conclusions
+The hypothesis tests and construction of confidence intervals require several **assumptions**:
+\begin{itemize}
+\item The population distribution of the tooth length variable from a certain group is approximately normal.
+\item The tooth length samples are independent and identically distributed.
+\item The sample size should not be too small if the population distribution is somewhat skewed.
+\item Confounders are randomly assigned. In other words, when we perform tests on supplement types over length, dose levels should be randomly distributed in the levels of VC and OJ. Similarly, when we perform tests on dose levels over length, supplement types should be randomly distributed in 0.5 mg/day, 1 mg/day, and 2 mg/day.
+\item The significant level is $\alpha=0.5$.
+\end{itemize}
+
+Based on the test results, we have the following **conclusions**:
+\begin{itemize}
+\item Supplements types, namely orange juice or ascorbic acid, do not significantly affect the length of odontoblasts.
+\item Dose levels of vitmin C have an significant influence on the length of odontoblasts. In specific, pigs who recieve vitamin C 0.5 mg/day have smaller expected tooth length than those who recieve 1 mg/day; similarly, pigs who recieve 1 mg/day have smaller expected tooth length than those who recieve 2 mg/day. In a nutshell, vitamin C has a clear positive effect on tooth growth.
+\end{itemize}
+
+\newpage
+## Appendix
+```{r, eval=FALSE}
+# Codes for Figure 1
+library(ggplot2)
+library(ggridges)
+ggplot(dat, aes(x = len, y = factor(supp), fill = supp)) +
+  geom_density_ridges(alpha = 0.8) +
+  labs(title = "Density of 'len' over supplement types", x = "len", y = "supp") +
+  theme_classic()
+
+ggplot(dat, aes(x = len, y = factor(dose), fill = dose)) +
+  geom_density_ridges(alpha = 0.8) + 
+  labs(title = "Density of 'len' over dose levels", x = "len", y = "dose") + 
+  theme_classic()
+```
+
+
+
+
+
+
+
+   
+
+
+
+
