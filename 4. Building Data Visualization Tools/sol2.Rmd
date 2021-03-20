@@ -1,0 +1,204 @@
+---
+title: "Solution to Quiz 2"
+output: html_notebook
+---
+```{r, include=FALSE}
+knitr::opts_chunk$set(eval = FALSE)
+```
+
+
+# Question 1
+Consider the following data frame of points along the US border:
+```{r}
+library(ggplot2)
+us_map <- map_data("usa")
+head(us_map, 3)
+
+##      long      lat group order region subregion
+## -101.4078 29.74224     1     1   main      <NA>
+## -101.3906 29.74224     1     2   main      <NA>
+## -101.3620 29.65056     1     3   main      <NA>
+```
+
+Q: If you wanted to use this data to map the outline of the United States without converting the data to a spatial object, how would you map aesthetics in the `ggplot` call, and which geom would you add?
+
+A: For the aesthetics, I would map `long` to `x`, `lat` to `y`, and `group` to `group`. I would then add a path geom. 
+
+**Code:**
+```{r}
+ggplot(data = us_map, aes(x = long, y = lat, 
+                          group = group)) +
+  geom_path() +
+  theme_bw()
+```
+
+
+# Question 2
+Q: If you have a SpatialPointsDataframe object that you would like to use for mapping, why might you want to convert it to a data frame object and how would you do it?
+
+A: You may want to convert it because some plotting and mapping methods, include `ggplot2` and `ggmap`, will only input a data frame. 
+
+To convert it, you could use the `fortify` function from `gplot2`. 
+
+
+# Question 3
+Q: Which of the following are geographic tasks can you do using functions from the `ggmap` package?
+
+A:
+
+(1) Geocode addresses or other locations by inputting a character string with the address or location and getting back latitude and longitude listings using the Google Maps API.
+
+**Code:**
+```{r}
+geocode("Supreme Court of the United States")
+## A tibble: 1 x 2
+## lon   lat
+## <dbl> <dbl>
+##   1 -77.0  38.9
+```
+
+(2) Plot a ggmap object using the `ggmap` function.
+
+**Code:**
+```{r}
+library(ggmap)
+maps_api_key <- Sys.getenv("GOOGLEMAPS_API_KEY")
+register_google(key = "AIzaSyCc6OdfbbzkOAmcnhMemRzUcYHN5SUYMSM")
+beijing <- get_map("Beijing", zoom = 12)
+ggmap(beijing)
+```
+
+(3) Get a base map for a certain location from GoogleMaps to which you can later add points, polygons, and other shapes.
+
+**Code:**
+```{r}
+get_map("Baltimore County", zoom = 10, 
+        source = "stamen", maptype = "toner") %>%
+  ggmap() + 
+  geom_polygon(data = baltimore, aes(x = long, y = lat, group = group),
+               color = "navy", fill = "lightblue", alpha = 0.2) + 
+  geom_point(data = serial, aes(x = long, y = lat, color = tower)) + 
+  theme_void() + 
+  scale_color_manual(name = "Cell tower", values = c("black", "red"))
+```
+
+(5) Compute map distances using Google Maps.
+
+**Code:**
+```{r}
+mapdist("Baltimore, MD",
+        "Washington, DC") %>%
+  select(from, to, miles)
+## A tibble: 1 x 3
+## from          to             miles
+## <chr>         <chr>          <dbl>
+##   1 Baltimore, MD Washington, DC  40.2
+```
+
+
+# Question 4
+The following code uses `ggmap` to plot the walking route between the US White House and the US Capitol Building: 
+```{r}
+library(ggmap)
+inauguration_route <- route(from = "US Capitol Building",
+                            to = "White House", 
+                            structure = "route",
+                            mode = "walking")
+inaug_route_map <- get_map("Metro Center, Washington DC",
+                           zoom = 14) %>% 
+  ggmap(extent = "device") + 
+  geom_path(data = inauguration_route,
+            color = "darkred", size = 1.1)
+```
+
+Say you have the following data frame with the addresses of a few hotels:
+```{r}
+library(dplyr)
+dc_hotels <- data_frame(address = 
+                c("1401 Pennsylvania Ave NW, Washington DC", 
+                  "1331 Pennsylvania Ave NW, Washington DC")) %>%
+  bind_cols(geocode(dc_hotels$address))
+dc_hotels
+
+##                                  address       lon      lat
+##                                    <chr>     <dbl>    <dbl>
+##  1401 Pennsylvania Ave NW, Washington DC -77.03227 38.89660
+##  1331 Pennsylvania Ave NW, Washington DC -77.03084 38.89636
+```
+
+Q: How would you create a new map with these hotels added as points?
+
+A: 
+```{r}
+inaug_route_map + 
+  geom_point(dc_hotels, aes(x = lon, y = lat))
+```
+
+
+# Question 5
+Q: What is a shapefile?
+
+A: A format for saving spatial data. The format is not specific to R, but shapefiles can be read into or written from R using functions from packages like rgdal.
+
+
+# Question 6
+Q: Why might you get an error running the following code?
+```{r}
+library(ggmap)
+get_map("Washington, DC")
+```
+
+A: Your computer is offline. The `get_map` function using the Google Maps API to pull the requested map into R. The function cannot post the request or receive the requested map if your computer is not online. 
+
+
+# Question 7
+TRUE or FALSE: To use data you have cleaned in R to create an interactive plot, you must export the data and code the interactive plot in JavaScript. 
+
+Q: FALSE
+
+
+# Question 8
+Q: In which of the following formats can you interact (zoom, pan, open popups) with a map created using the `leaflet` package?
+
+A: 
+
+(1) If you include the leaflet output in an R Markdown document that is rendered to HTML. 
+
+(4) If you run the leaflet code in RStudio. 
+
+(5) If you render the leaflet object in a Shiny App. 
+
+
+# Question 9
+You have data with spatial locations (e.g., sampling sites for a study) that you want to use to create an interactive leaflet map. 
+
+Q: Which of the following statements is true?
+
+A: (4) The data can be in either a data frame with columns for latitude and longitude or a SpatialPoints object. 
+
+
+# Question 10
+Say you use the following code to plot a choropleth of murder arrests per 100,000 people in US states in 1973:
+```{r}
+library(ggplot2)
+library(dplyr)
+USArrests %>%
+  mutate(region = tolower(rownames(USArrests))) %>%
+  left_join(map_data("state"), by = "region") %>%
+  ggplot(aes(x = long, y = lat, group = group, fill = Murder)) + 
+  geom_polygon() + 
+  theme_void()
+```
+
+Q: Which of the following statements are true about this code?
+
+A:
+
+(1) The code is using piping (using `%>%` from the `dplyr` package) to clean up and join together geospatial data (state borders) with the USArrests data frame, and then piping this into `ggplot2` functions to create the map.
+
+(3) The theme is added to the ggplot object to prevent x- and y-axes, x- and y-axis labels, and the background grid from being included on the final map.
+
+(6) The group aesthetic is mapped to the group column in the data to create separate polygons for each state and to prevent unwanted lines between the borders of different states.
+
+
+
