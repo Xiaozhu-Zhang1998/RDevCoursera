@@ -8,3 +8,6 @@
 - [R Graphics Cookbook](http://www.cookbook-r.com/Graphs/), Winston Chang
 - [Happy Git and GitHub for the useR](https://happygitwithr.com/), Jenny Bryan
 - [R语言教程](https://www.math.pku.edu.cn/teachers/lidf/docs/Rbook/html/_Rbook/), 李东风
+- [Interactive web-based data visualization with R, plotly, and shiny](https://plotly-r.com/), Carson Sievert
+
+
