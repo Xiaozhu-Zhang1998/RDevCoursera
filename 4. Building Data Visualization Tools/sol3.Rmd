@@ -1,0 +1,95 @@
+---
+title: "Solution to Quiz 3"
+output: html_notebook
+---
+
+# Question 1
+Q: You want to customize the color scale, theme elements, and include a mathematical equation in the title of a faceted scatterplot. Is it necessary to create the plot using grid graphics rather than ggplot2?
+
+A: No, you do not need to code this plot in grid graphics (although you could).
+
+
+# Question 2
+Q: Which of the following types of objects are created with grid graphics, either directly or using a package built on grid graphics?
+
+A: 
+
+(1) A grob object; 
+
+(2) A ggplot object; 
+
+(3) A map created with ggmap.
+
+
+# Question 3
+Q: How can you customize the aesthetics of a grob, like color and line style, when creating the grob?
+
+A: Use key-value pairs within a call to the `gpar` function as the input to the `gp` parameter of the grob family function. For example:
+```{r, eval=FALSE}
+circleGrob(x = 0.5, y = 0.5, r = 0.5,
+           gp = gpar(col = "grey"))
+```
+
+
+# Question 4
+**TRUE or FALSE:** You use viewports to **create** new graphical elements when using grid graphics. 
+
+A: FALSE
+
+
+# Question 5
+Q: Which of the following are graphical elements can you create in an R plot using one of the grob family of functions from the `grid` package?
+
+A: 
+
+(1) x- and y- axes; 
+
+(2) Polygon;
+
+(4) Point;
+
+(5) Line;
+
+(6) Text.
+
+
+# Question 6
+Q: What is the name of the plotting windows that you can move into and out of to customize plots using grid graphics?
+
+A: Viewports
+
+
+# Question 7
+Q: Which of the following tasks can be done using the `grid.arrange` function in the `gridExtra` package?
+
+A: 
+
+(1) Draw multiple ggplot objects to the current graphics device.
+
+(2) Draw multiple ggplot objects to the current graphics device.
+
+(3) Draw a single grob to the current graphics device.
+
+
+# Question 8
+Q: Which of the following are possible units that can be used with grid graphics coordinate systems?
+
+A: 
+
+(1) "npc"
+
+(4) "native"
+
+(5) "cm"
+
+# Question 9
+Q: Question 9
+If you have to integrate base graphics and grid graphics output, what is the name of the package that can be used to do that?
+
+A: `gridBase`
+
+
+# Question 10
+Q: What graphics systems is `ggplot2` built on?
+
+A: Grid graphics
