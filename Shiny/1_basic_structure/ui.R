@@ -13,7 +13,10 @@ shinyUI(fluidPage(
                 sliderInput("schoolyear", "Choose your start year and end year of college",
                             min = 2000, max = 2021, value = c(2000, 2004)),
                 sliderInput("salary", "Select your expected salary per month",
-                            min = 3000, max = 10000, value = 5000, animate = T, step = 100)
+                            min = 3000, max = 10000, value = 5000, animate = T, step = 100),
+                selectInput("statenames", "Select the states of your branches", 
+                            c("California", "Florida", "Texas", "New York", "Arizona"),
+                            selected = "Texas", multiple = TRUE)
                 ),
    
    mainPanel(h4("Personal information"),
@@ -21,7 +24,8 @@ shinyUI(fluidPage(
              textOutput("age"),
              textOutput("gender"),
              textOutput("schoolyear"),
-             textOutput("salary")
+             textOutput("salary"),
+             textOutput("state")
              )
              
  )

@@ -10,4 +10,5 @@ shinyServer(function(input, output){
                                          input$schoolyear[1], " and finished in ",
                                          input$schoolyear[2]))
   output$salary <- renderText(paste0("My expected salary is $", input$salary, " a month"))
+  output$state <- renderText(paste0("I could work for the following states: ", paste(input$statenames, collapse = ', ')))
 })
