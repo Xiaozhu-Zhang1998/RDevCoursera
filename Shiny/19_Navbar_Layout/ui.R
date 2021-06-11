@@ -2,7 +2,12 @@ library(shiny)
 
 # Define UI for application that draws a histogram
 shinyUI(navbarPage(
-  title = "Demo Shiny Navbar Layout",
+  title = "Demo Shiny Navbar Layout", 
+  inverse = T,
+  selected = "Data Page",
+  # position = "fixed-bottom",
+  # position = "static-top",
+  position = "fixed-top",
   
   tabPanel("About Page",
            h4("This app uses navbar for layout & mtcars dataset for demo")),
