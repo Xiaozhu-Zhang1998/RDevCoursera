@@ -1,0 +1,52 @@
+---
+title: "Demo of slides"
+author: "Paige Zhang"
+date: "Feb. 25, 2021"
+output: 
+  beamer_presentation:
+    theme: "Madrid"
+    colortheme: "default"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+## R Markdown
+
+This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+
+## Slide with Bullets
+
+-   Bullet 1
+-   Bullet 2
+-   Bullet 3
+
+And there are others:
+
+1.  California
+
+2.  New York
+
+3.  North Carolina
+
+## Slide with R Output
+
+```{=tex}
+\begin{theorem}[Newton-Einstein]
+This is ...
+\end{theorem}
+```
+```{r cars, echo = TRUE}
+s <- summary(cars)
+knitr::kable(s, aligh = 'c', caption = "The Summary")
+```
+
+## Slide with Plot
+
+```{r pressure}
+library(ggplot2)
+ggplot(data = mtcars, aes(x = mpg)) + geom_histogram(bins = 30) 
+```
