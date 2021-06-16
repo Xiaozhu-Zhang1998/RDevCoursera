@@ -20,5 +20,12 @@ shinyServer(function(input, output, session) {
             selected = if(input$all) myChoices
         )
     })
+    
+    observe({
+        updateSelectInput(
+            session, 'mtcars1', choices = myChoices,
+            selected = if(input$all1) myChoices
+        )
+    })
 
 })
