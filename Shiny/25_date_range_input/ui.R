@@ -41,13 +41,23 @@ shinyUI(fluidPage(
     ),
     
     fluidRow(
-        column(12, list(
+        column(6, list(
             h5("Demo - updateDateInput() - Update the date and reset it"),
             hr(),
             
             actionButton("button", "Date + 7"),
             actionButton("reset", "Reset"),
             dateInput("inDate", "Input Date", value = Sys.Date())
+        )),
+        column(6, list(
+            h5("Demo - updateDateRangeInput() - reset"),
+            hr(),
+            actionButton("reset1", "Reset Date"),
+            dateRangeInput("date1", "Select Date Range",
+                           start = Sys.Date(),
+                           end = Sys.Date(),
+                           min = Sys.Date() - 10,
+                           max = Sys.Date() + 10)
         ))
     )
     

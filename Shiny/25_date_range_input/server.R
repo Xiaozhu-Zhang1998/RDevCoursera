@@ -46,4 +46,7 @@ shinyServer(function(input, output, session) {
     observeEvent(input$reset,
                  updateDateInput(session, "inDate", value = Sys.Date()))
     
+    observeEvent(input$reset1, 
+                 updateDateRangeInput(session, "date1", start = Sys.Date(), end = Sys.Date()))
+    
 })
