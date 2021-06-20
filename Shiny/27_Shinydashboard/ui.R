@@ -3,9 +3,21 @@ library(shinydashboard)
 library(plotly)
 library(datasets)
 
-shinyUI(dashboardPage(
+title <- tags$a(href = "https://www.google.com", 
+                tags$image(src = "logo.png", height = "45", width = "140"),
+                "Demo shinydashboard package")
 
-    dashboardHeader(title = "Demo shinydashboard package", titleWidth = 600, disable = FALSE),
+shinyUI(dashboardPage(
+    
+    skin = "purple",
+    # black, purple, green, red, yellow, blue
+
+    dashboardHeader(title = title, titleWidth = 600, disable = FALSE,
+                    tags$li(class = "dropdown", tags$a(href = "https://www.facebook.com", icon("facebook"), "Facebook", target = "_blank")),
+                    tags$li(class = "dropdown", tags$a(href = "https://www.twitter.com", icon("twitter"), "Twitter", target = "_blank")),
+                    tags$li(class = "dropdown", tags$a(href = "https://www.linkedin.com", icon("linkedin"), "LinkedIn", target = "_blank")),
+                    tags$li(class = "dropdown", tags$a(href = "https://www.github.com", icon("github"), "GitHub", target = "_blank"))
+    ),
     
     dashboardSidebar(
         sidebarMenu(
@@ -16,7 +28,15 @@ shinyUI(dashboardPage(
                      menuSubItem('chartmenusub1', tabName = "chart1", icon = icon("line-chart")),
                      menuSubItem("chartmenushb2", tabName = "chart2", icon = icon("line-chart"))),
             menuItem(text = "Box", tabName = "box", icon = icon("check")),
-            menuItem(text = "InfoBox", tabName = "IB")
+            menuItem(text = "InfoBox", tabName = "IB", icon = icon("tachometer")),
+            menuItem(text = "ValueBox", tabName = "VB", icon = icon("tachometer", class = "fa-lg")),
+            menuItem(text = "Dashboard1", icon = icon("tachometer", class = "fa-rotate-90")),
+            menuItem(text = "Dashboard2", icon = icon("cog", class = "fa-spin")),
+            menuItem(text = "Dashboard3", icon = icon("cog", class = "fa-pulse")),
+            menuItem(text = "Dashboard4", icon = icon("cog", class = "fa-border")),
+            menuItem(text = "Dashboard5", icon = icon("hourglass", lib = "glyphicon")),
+            menuItem(text = "Dashboard6", icon = icon("square", class = "mystyle")),
+            tags$style(".mystyle {color: yellow;}")
         )
     ),
     
@@ -56,8 +76,11 @@ shinyUI(dashboardPage(
                     ),
                     fluidRow(
                         infoBoxOutput("inline", tags$style("#inline {height:75px; line-height:75px; padding-top:0px; padding-bottom:0px; width:400px;}"))
-                    )
-                    )
+                    )),
+            
+            tabItem(tabName = "VB", 
+                    fluidRow(valueBoxOutput("min__", width = 3), valueBoxOutput("max__", width = 3), valueBoxOutput("sd__", width = 3), valueBoxOutput("mean__", width = 3)),
+                    fluidRow(valueBoxOutput("median__", width = 6), valueBoxOutput("orders__", width = 3), valueBoxOutput("approved__", width = 3)))
         )
     )
     
