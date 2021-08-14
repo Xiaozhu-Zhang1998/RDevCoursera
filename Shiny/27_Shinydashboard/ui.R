@@ -2,7 +2,11 @@ library(shiny)
 library(shinydashboard)
 library(plotly)
 library(datasets)
+library(ggplot2)
 library(shinyBS)
+library(shinyjs)
+library(DT)
+library(shinycssloaders)
 
 title <- tags$a(href = "https://www.google.com", 
                 tags$image(src = "logo.png", height = "45", width = "140"),
@@ -31,7 +35,7 @@ shinyUI(dashboardPage(
             menuItem(text = "Box", tabName = "box", icon = icon("check")),
             menuItem(text = "InfoBox", tabName = "IB", icon = icon("tachometer")),
             menuItem(text = "ValueBox", tabName = "VB", icon = icon("tachometer", class = "fa-lg")),
-            menuItem(text = "Dashboard1", icon = icon("tachometer", class = "fa-rotate-90")),
+            menuItem(text = "Dashboard1", tabName = "db1", icon = icon("tachometer", class = "fa-rotate-90")),
             menuItem(text = "Dashboard2", icon = icon("cog", class = "fa-spin")),
             menuItem(text = "Dashboard3", icon = icon("cog", class = "fa-pulse")),
             menuItem(text = "Dashboard4", icon = icon("cog", class = "fa-border")),
@@ -53,6 +57,8 @@ shinyUI(dashboardPage(
                   trigger = "hover",
                   placement = "right",
                   options = list(container = "body")),
+        
+        shinyjs::useShinyjs(),
         
         tabItems(
             tabItem(tabName = "about", p("This example app...")),
@@ -96,8 +102,41 @@ shinyUI(dashboardPage(
             
             tabItem(tabName = "VB", 
                     fluidRow(valueBoxOutput("min__", width = 3), valueBoxOutput("max__", width = 3), valueBoxOutput("sd__", width = 3), valueBoxOutput("mean__", width = 3)),
-                    fluidRow(valueBoxOutput("median__", width = 6), valueBoxOutput("orders__", width = 3), valueBoxOutput("approved__", width = 3)))
-        )
+                    fluidRow(valueBoxOutput("median__", width = 6), valueBoxOutput("orders__", width = 3), valueBoxOutput("approved__", width = 3))),
+            
+            tabItem(tabName = "db1", 
+                    box(width = 5, title = "Input data", status = "primary", solidHeader = TRUE,
+                        fileInput("file..", "Upload Data"), 
+                        
+                        # View data action button hidden initially until the dataset is loaded
+                        shinyjs::hidden(
+                            div(id = "data_b", style = "display:inline-block",
+                                actionButton("data_button", "View Data", icon = icon("table")))
+                        ),
+
+                        # View plot action button hidden initially until the dataset is loaded
+                        shinyjs::hidden(
+                            div(id = "plot_b", style = "display:inline-block",
+                                actionButton("plot_button", "View Plot", icon = icon("bar-chart")))
+                        )
+                        
+                        ))
+        ),
+        
+        ## Shiny BS Modal to display the dataset inside a modal
+        ## A spinner is also added
+        bsModal(id = "dataset", title = "Diamonds Dataset", trigger = "data_button", size = "large",
+                withSpinner(dataTableOutput("data_set"))), 
+        
+        ## Shiny BS Modal ti display the plot inside a modal
+        ## A spinner is also added
+        bsModal(id = "Plot", title = "Plot", trigger = "plot_button", size = "large",
+                sliderInput("b", label = "Select the number of bins", min = 55, max = 100, value = 50),
+                br(),
+                withSpinner(plotOutput("plot_gg")))
+        
     )
+    
+    
     
 ))
