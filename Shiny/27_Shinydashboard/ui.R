@@ -2,6 +2,7 @@ library(shiny)
 library(shinydashboard)
 library(plotly)
 library(datasets)
+library(shinyBS)
 
 title <- tags$a(href = "https://www.google.com", 
                 tags$image(src = "logo.png", height = "45", width = "140"),
@@ -41,6 +42,18 @@ shinyUI(dashboardPage(
     ),
     
     dashboardBody(
+        bsPopover(id = "inline", title = "Mean",
+                  content = "Mean price of diamonds",
+                  trigger = "hover",
+                  placement = "bottom",
+                  options = list(container = "body")),
+        
+        bsPopover(id = "q1", title = "How this works",
+                  content = "Divide the sum of all diamond prices by the number of diamonds",
+                  trigger = "hover",
+                  placement = "right",
+                  options = list(container = "body")),
+        
         tabItems(
             tabItem(tabName = "about", p("This example app...")),
             tabItem(tabName = "data", dataTableOutput("mydatatable")),
@@ -76,6 +89,9 @@ shinyUI(dashboardPage(
                     ),
                     fluidRow(
                         infoBoxOutput("inline", tags$style("#inline {height:75px; line-height:75px; padding-top:0px; padding-bottom:0px; width:400px;}"))
+                    ),
+                    fluidRow(
+                        infoBoxOutput("mean_2", width = 6)
                     )),
             
             tabItem(tabName = "VB", 

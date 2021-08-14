@@ -2,6 +2,7 @@ library(shiny)
 library(shinydashboard)
 library(plotly)
 library(datasets)
+library(shinyBS)
 
 shinyServer(function(input, output, session) {
     
@@ -49,6 +50,15 @@ shinyServer(function(input, output, session) {
     
     output$median_ <- renderInfoBox({
       infoBox(title = tags$b("Median"), value = median(s), subtitle = tags$i("Median of dataset"), icon = icon("angle-double-right"))
+    })
+    
+    output$inline <- renderInfoBox({
+      infoBox(title = "Inline", value = 2, icon = icon("usd"))
+    })
+    
+    output$mean_2 <- renderInfoBox({
+      infoBox(title = "Mean2", value = runif(1, 0, 10), icon = icon("usd"),
+               subtitle = tags$a(icon("question-circle"), id = "q1"))
     })
     
     output$min__ <- renderValueBox({
